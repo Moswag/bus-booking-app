@@ -30,7 +30,8 @@ class _ViewCompanyState extends State<ViewCompany> {
             Padding(
               padding: const EdgeInsets.only(top: 160),
               child: FutureBuilder(
-                future: fetchAllRoutes(http.Client(), widget.company.id),
+                future: fetchAllRoutes(
+                    http.Client(), widget.company.id, widget.prefs),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     print(snapshot.error);
@@ -114,8 +115,8 @@ class RouteList extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                DetailPage(route: routes[positon], prefs: prefs)));
+                            builder: (BuildContext context) => DetailPage(
+                                route: routes[positon], prefs: prefs)));
                   },
                 ),
               ));

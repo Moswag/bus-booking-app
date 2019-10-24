@@ -90,7 +90,8 @@ class _ViewReceiptsState extends State<ViewReceipts> {
         child: Container(
             decoration: BoxDecoration(color: Colors.greenAccent),
             child: FutureBuilder(
-                future: fetchMyReceipts(http.Client(), phonenumber),
+                future:
+                    fetchMyReceipts(http.Client(), phonenumber, widget.prefs),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.data == null) {
                     return Container(

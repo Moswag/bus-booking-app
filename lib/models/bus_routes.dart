@@ -1,7 +1,9 @@
 import 'dart:convert' as convert;
 
+import 'package:bus_booking_app/constants/pref_constants.dart';
 import 'package:bus_booking_app/constants/url_constants.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BusRoutes {
   int id;
@@ -68,9 +70,10 @@ class BusRoutes {
 //Fetch data from Restful API
 
 Future<List<BusRoutes>> fetchAllRoutes(
-    http.Client client, int companyId) async {
+    http.Client client, int companyId, SharedPreferences prefs) async {
   print('$URL_COMPANY_ROUTES$companyId');
-  final response = await client.get('$URL_COMPANY_ROUTES$companyId');
+  final response = await client.get(prefs.getString(PrefConstants.IP_ADDRESS) +
+      '$URL_COMPANY_ROUTES$companyId');
   if (response.statusCode == 200) {
     var mapResponse = convert.jsonDecode(response.body);
     if (mapResponse[0]['response'] == 'ok') {
@@ -83,44 +86,5 @@ Future<List<BusRoutes>> fetchAllRoutes(
     }
   } else {
     throw Exception('Failed to load User');
-  }
-}
-
-//fetch task by id
-
-Future<BusRoutes> fetchCompanyById(http.Client client, int taskId) async {
-  print('$URL_COMPANY_ROUTES$taskId');
-  final response = await client.get('$URL_COMPANY_ROUTES$taskId');
-  if (response.statusCode == 200) {
-    var mapResponse = convert.jsonDecode(response.body);
-    if (mapResponse[0]['result'] == 'ok') {
-      var mapTask = mapResponse[0]['data'];
-      return BusRoutes.fromJson(mapTask);
-    } else {
-      return BusRoutes();
-    }
-  } else {
-    throw Exception('Failed to get detail task with Id={taskId}');
-  }
-}
-
-//update a task
-Future<bool> fetchCompany(
-    http.Client client, Map<String, dynamic> params) async {
-  print(params.toString());
-  final response = await client.post(URL_LOGIN, body: params);
-  print('response22=$response');
-  if (response.statusCode == 200) {
-    var responseBody = await convert.jsonDecode(response.body);
-    var mapResponse = responseBody[0]['response'];
-    if (mapResponse == 'success') {
-      print('Response ikuti ' + responseBody[0]['name']);
-      return true;
-    } else {
-      print('Response ikuti ' + responseBody[0]['message']);
-      return false;
-    }
-  } else {
-    throw Exception('Failed to update a Task. Error: ${response.toString()}');
   }
 }

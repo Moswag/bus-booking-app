@@ -1,3 +1,4 @@
+import 'package:bus_booking_app/set_ip.dart';
 import 'package:bus_booking_app/utils/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -104,9 +105,21 @@ class _LoginPageState extends State<LoginPage> {
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
           setState(() {
-            _loginUser(
-                phonenumber: phonenumberController.text,
-                password: passwordController.text);
+            if (widget.prefs.getString(PrefConstants.IP_ADDRESS) != null) {
+              final snackBar = SnackBar(
+                  content: Text("Ip Address is: " +
+                      widget.prefs.getString(PrefConstants.IP_ADDRESS)));
+
+              Scaffold.of(context).showSnackBar(snackBar);
+              _loginUser(
+                  phonenumber: phonenumberController.text,
+                  password: passwordController.text);
+            } else {
+              final snackBar =
+                  SnackBar(content: Text("Please set an ip address"));
+
+              Scaffold.of(context).showSnackBar(snackBar);
+            }
           });
         },
         child: Text("Login",
@@ -132,6 +145,28 @@ class _LoginPageState extends State<LoginPage> {
                       )));
         },
         child: Text("Register",
+            textAlign: TextAlign.center,
+            style: style.copyWith(
+                color: Colors.white, fontWeight: FontWeight.bold)),
+      ),
+    );
+
+    final setIPAddress = Material(
+      elevation: 5.0,
+      borderRadius: BorderRadius.circular(30.0),
+      color: Color(0xffFAaaa4),
+      child: MaterialButton(
+        minWidth: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => SetIpPage(
+                        prefs: widget.prefs,
+                      )));
+        },
+        child: Text("Set IP Address",
             textAlign: TextAlign.center,
             style: style.copyWith(
                 color: Colors.white, fontWeight: FontWeight.bold)),
@@ -169,6 +204,8 @@ class _LoginPageState extends State<LoginPage> {
                     loginButton,
                     SizedBox(height: 25.0),
                     registerButton,
+                    SizedBox(height: 25.0),
+                    setIPAddress,
                     SizedBox(
                       height: 15.0,
                     ),

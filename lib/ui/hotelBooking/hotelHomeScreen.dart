@@ -103,7 +103,8 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                             color:
                                 HotelAppTheme.buildLightTheme().backgroundColor,
                             child: FutureBuilder(
-                                future: fetchAllCompanies(http.Client()),
+                                future: fetchAllCompanies(
+                                    http.Client(), widget.prefs),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasError) {
                                     print(snapshot.error);
@@ -152,7 +153,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                   return SizedBox();
                 } else {
                   return FutureBuilder(
-                      future: fetchAllCompanies(http.Client()),
+                      future: fetchAllCompanies(http.Client(), widget.prefs),
                       builder: (context, snapshot) {
                         if (snapshot.hasError) {
                           print(snapshot.error);

@@ -82,7 +82,7 @@ class _ViewPromotionsState extends State<ViewPromotions> {
         child: Container(
             decoration: BoxDecoration(color: Colors.greenAccent),
             child: FutureBuilder(
-                future: fetchPromotions(http.Client()),
+                future: fetchPromotions(http.Client(), widget.prefs),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.data == null) {
                     return Container(

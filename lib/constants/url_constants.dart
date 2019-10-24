@@ -1,4 +1,4 @@
-const SERVER_NAME = 'http://10.130.158.170/bus_booking/api';
+const SERVER_NAME = '/bus_booking/api';
 const URL_REGISTER = '$SERVER_NAME/register';
 const URL_LOGIN = '$SERVER_NAME/login';
 const URL_COMPANIES = '$SERVER_NAME/companies';

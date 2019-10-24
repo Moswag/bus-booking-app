@@ -1,7 +1,9 @@
 import 'dart:convert' as convert;
 
+import 'package:bus_booking_app/constants/pref_constants.dart';
 import 'package:bus_booking_app/constants/url_constants.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Promotion {
   int id;
@@ -36,9 +38,11 @@ class Promotion {
 
 //Fetch data from Restful API
 
-Future<List<Promotion>> fetchPromotions(http.Client client) async {
+Future<List<Promotion>> fetchPromotions(
+    http.Client client, SharedPreferences prefs) async {
   print(URL_PROMOTIONS);
-  final response = await client.get(URL_PROMOTIONS);
+  final response = await client
+      .get(prefs.getString(PrefConstants.IP_ADDRESS) + URL_PROMOTIONS);
   if (response.statusCode == 200) {
     var mapResponse = convert.jsonDecode(response.body);
     if (mapResponse[0]['response'] == 'success') {

@@ -59,49 +59,14 @@ class User {
         address: anotherUser.address);
   }
 }
-//Controllers =" functions relating to Task
-
-Future<List<User>> fetchUsers(http.Client client, int userId) async {
-  print('$URL_COMPANY_ROUTES$userId');
-  final response = await client.get('$URL_COMPANY_ROUTES$userId');
-  if (response.statusCode == 200) {
-    var mapResponse = convert.jsonDecode(response.body);
-    if (mapResponse[0]['result'] == 'ok') {
-      final users = mapResponse[0]['data'].cast<Map<String, dynamic>>();
-      return users.map<User>((json) {
-        return User.fromJson(json);
-      }).toList();
-    } else {
-      return [];
-    }
-  } else {
-    throw Exception('Failed to load User');
-  }
-}
-
-//fetch task by id
-
-Future<User> fetchTaskById(http.Client client, int taskId) async {
-  print('$URL_COMPANY_ROUTES$taskId');
-  final response = await client.get('$URL_COMPANY_ROUTES$taskId');
-  if (response.statusCode == 200) {
-    var mapResponse = convert.jsonDecode(response.body);
-    if (mapResponse[0]['result'] == 'ok') {
-      var mapTask = mapResponse[0]['data'];
-      return User.fromJson(mapTask);
-    } else {
-      return User();
-    }
-  } else {
-    throw Exception('Failed to get detail task with Id={taskId}');
-  }
-}
 
 //update a task
 Future<bool> saveUser(http.Client client, Map<String, dynamic> params,
     SharedPreferences prefs) async {
   print(params.toString());
-  final response = await client.post(URL_REGISTER, body: params);
+  final response = await client.post(
+      prefs.getString(PrefConstants.IP_ADDRESS) + URL_REGISTER,
+      body: params);
   print('response22=$response');
   if (response.statusCode == 200) {
     var responseBody = await convert.jsonDecode(response.body);
@@ -132,7 +97,9 @@ Future<bool> saveUser(http.Client client, Map<String, dynamic> params,
 Future<bool> loginUser(http.Client client, SharedPreferences prefs,
     Map<String, dynamic> params) async {
   print(params.toString());
-  final response = await client.post(URL_LOGIN, body: params);
+  final response = await client.post(
+      prefs.getString(PrefConstants.IP_ADDRESS) + URL_LOGIN,
+      body: params);
   print('response22=$response');
   if (response.statusCode == 200) {
     var responseBody = await convert.jsonDecode(response.body);
@@ -147,30 +114,6 @@ Future<bool> loginUser(http.Client client, SharedPreferences prefs,
       print('Response ikuti ' + responseBody[0]['message']);
       return false;
     }
-  } else {
-    throw Exception('Failed to update a Task. Error: ${response.toString()}');
-  }
-}
-
-//update a task
-Future<User> updateUser(http.Client client, Map<String, dynamic> params) async {
-  final response =
-      await client.put('$URL_REGISTER/${params["id"]}', body: params);
-  print('response22=$response');
-  if (response.statusCode == 200) {
-    var responseBody = await convert.jsonDecode(response.body);
-    var mapTask = responseBody[0]['data'];
-    return User.fromJson(mapTask);
-  } else {
-    throw Exception('Failed to update a Task. Error: ${response.toString()}');
-  }
-}
-
-Future<User> deleteTask(http.Client client, int id) async {
-  final response = await client.delete('$URL_REGISTER/$id');
-  if (response.statusCode == 200) {
-    var responseBody = await convert.jsonDecode(response.body);
-    return User.fromJson(responseBody[0]["data"]);
   } else {
     throw Exception('Failed to update a Task. Error: ${response.toString()}');
   }
