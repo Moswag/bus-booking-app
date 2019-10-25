@@ -105,21 +105,9 @@ class _LoginPageState extends State<LoginPage> {
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
           setState(() {
-            if (widget.prefs.getString(PrefConstants.IP_ADDRESS) != null) {
-              final snackBar = SnackBar(
-                  content: Text("Ip Address is: " +
-                      widget.prefs.getString(PrefConstants.IP_ADDRESS)));
-
-              Scaffold.of(context).showSnackBar(snackBar);
-              _loginUser(
-                  phonenumber: phonenumberController.text,
-                  password: passwordController.text);
-            } else {
-              final snackBar =
-                  SnackBar(content: Text("Please set an ip address"));
-
-              Scaffold.of(context).showSnackBar(snackBar);
-            }
+            _loginUser(
+                phonenumber: phonenumberController.text,
+                password: passwordController.text);
           });
         },
         child: Text("Login",
@@ -204,8 +192,8 @@ class _LoginPageState extends State<LoginPage> {
                     loginButton,
                     SizedBox(height: 25.0),
                     registerButton,
-                    SizedBox(height: 25.0),
-                    setIPAddress,
+//                    SizedBox(height: 25.0),
+//                    setIPAddress,
                     SizedBox(
                       height: 15.0,
                     ),

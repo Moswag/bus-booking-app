@@ -47,10 +47,8 @@ class BookBus {
 Future<bool> bookBus(http.Client client, Map<String, dynamic> params,
     SharedPreferences prefs) async {
   print(params.toString());
-  print(prefs.getString(PrefConstants.IP_ADDRESS) + URL_BOOK_BUS);
-  final response = await client.post(
-      prefs.getString(PrefConstants.IP_ADDRESS) + URL_BOOK_BUS,
-      body: params);
+  print(URL_BOOK_BUS);
+  final response = await client.post(URL_BOOK_BUS, body: params);
   print('response22=$response');
   if (response.statusCode == 200) {
     var responseBody = await convert.jsonDecode(response.body);

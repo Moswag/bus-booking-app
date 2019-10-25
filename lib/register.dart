@@ -229,27 +229,17 @@ class _RegisterPageState extends State<RegisterPage> {
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () async {
           //update an existing task
-          if (widget.prefs.getString(PrefConstants.IP_ADDRESS) != null) {
-            final snackBar = SnackBar(
-                content: Text("Ip Address is: " +
-                    widget.prefs.getString(PrefConstants.IP_ADDRESS)));
-            Scaffold.of(context).showSnackBar(snackBar);
-            User user = new User();
-            user.id = '1';
-            user.name = nameController.text;
-            user.surname = surnameController.text;
-            user.national_id = nationalIdController.text;
-            user.phonenumber = phonenumberController.text;
-            user.address = addressController.text;
-            user.password = passwordController.text;
 
-            _addUser(user: user);
-          } else {
-            final snackBar = SnackBar(
-                content: Text(
-                    "Ip Address is not set, please do so before procceding"));
-            Scaffold.of(context).showSnackBar(snackBar);
-          }
+          User user = new User();
+          user.id = '1';
+          user.name = nameController.text;
+          user.surname = surnameController.text;
+          user.national_id = nationalIdController.text;
+          user.phonenumber = phonenumberController.text;
+          user.address = addressController.text;
+          user.password = passwordController.text;
+
+          _addUser(user: user);
         },
         child: Text("Register",
             textAlign: TextAlign.center,

@@ -1,6 +1,5 @@
 import 'dart:convert' as convert;
 
-import 'package:bus_booking_app/constants/pref_constants.dart';
 import 'package:bus_booking_app/constants/url_constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -72,8 +71,7 @@ class BusRoutes {
 Future<List<BusRoutes>> fetchAllRoutes(
     http.Client client, int companyId, SharedPreferences prefs) async {
   print('$URL_COMPANY_ROUTES$companyId');
-  final response = await client.get(prefs.getString(PrefConstants.IP_ADDRESS) +
-      '$URL_COMPANY_ROUTES$companyId');
+  final response = await client.get('$URL_COMPANY_ROUTES$companyId');
   if (response.statusCode == 200) {
     var mapResponse = convert.jsonDecode(response.body);
     if (mapResponse[0]['response'] == 'ok') {

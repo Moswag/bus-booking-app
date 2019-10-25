@@ -64,9 +64,7 @@ class User {
 Future<bool> saveUser(http.Client client, Map<String, dynamic> params,
     SharedPreferences prefs) async {
   print(params.toString());
-  final response = await client.post(
-      prefs.getString(PrefConstants.IP_ADDRESS) + URL_REGISTER,
-      body: params);
+  final response = await client.post(URL_REGISTER, body: params);
   print('response22=$response');
   if (response.statusCode == 200) {
     var responseBody = await convert.jsonDecode(response.body);
@@ -97,9 +95,7 @@ Future<bool> saveUser(http.Client client, Map<String, dynamic> params,
 Future<bool> loginUser(http.Client client, SharedPreferences prefs,
     Map<String, dynamic> params) async {
   print(params.toString());
-  final response = await client.post(
-      prefs.getString(PrefConstants.IP_ADDRESS) + URL_LOGIN,
-      body: params);
+  final response = await client.post(URL_LOGIN, body: params);
   print('response22=$response');
   if (response.statusCode == 200) {
     var responseBody = await convert.jsonDecode(response.body);

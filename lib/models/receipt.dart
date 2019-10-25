@@ -1,6 +1,5 @@
 import 'dart:convert' as convert;
 
-import 'package:bus_booking_app/constants/pref_constants.dart';
 import 'package:bus_booking_app/constants/url_constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -78,7 +77,7 @@ class Receipt {
 Future<List<Receipt>> fetchMyReceipts(
     http.Client client, String phonenumber, SharedPreferences prefs) async {
   print('$URL_GET_RECEIPTS$phonenumber');
-  final response = await client.get(prefs.getString(PrefConstants.IP_ADDRESS)+'$URL_GET_RECEIPTS$phonenumber');
+  final response = await client.get('$URL_GET_RECEIPTS$phonenumber');
   if (response.statusCode == 200) {
     var mapResponse = convert.jsonDecode(response.body);
     if (mapResponse[0]['response'] == 'success') {
@@ -93,5 +92,3 @@ Future<List<Receipt>> fetchMyReceipts(
     throw Exception('Failed to load receipts');
   }
 }
-
-

@@ -1,6 +1,5 @@
 import 'dart:convert' as convert;
 
-import 'package:bus_booking_app/constants/pref_constants.dart';
 import 'package:bus_booking_app/constants/url_constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -39,8 +38,7 @@ class Company {
 //Fetch data from Restful API
 Future<List<Company>> fetchAllCompanies(
     http.Client client, SharedPreferences prefs) async {
-  final response = await client
-      .get(prefs.getString(PrefConstants.IP_ADDRESS) + URL_COMPANIES);
+  final response = await client.get(URL_COMPANIES);
 
   if (response.statusCode == 200) {
     var mapResponse = convert.jsonDecode(response.body);
